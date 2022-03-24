@@ -59,13 +59,13 @@ task cleanBuildPublish(type: GradleBuild) {
 
 afterEvaluate {
     publishing {
-        repositories {
+        /*repositories {
             maven {
                 def releasesRepoUrl = "$buildDir/repos/releases"
                 def snapshotsRepoUrl = "$buildDir/repos/snapshots"
                 url = project.hasProperty('release') ? releasesRepoUrl : snapshotsRepoUrl
             }
-        }
+        }*/
         publications {
             // Creates a Maven publication called "release".
             release(MavenPublication) {
@@ -73,19 +73,10 @@ afterEvaluate {
                 from components.release
 
                 // You can then customize attributes of the publication as shown below.
-                groupId = 'com.quick.updatechecker'
-                artifactId = 'final'
-                version = '1.0'
+                groupId = 'com.quick'
+                artifactId = 'android-update-checker'
+                version = '1.0.0'
 
-            }
-            // Creates a Maven publication called “debug”.
-            debug(MavenPublication) {
-                // Applies the component for the debug build variant.
-                from components.debug
-
-                groupId = 'com.quick.updatechecker'
-                artifactId = 'final-debug'
-                version = '1.0'
             }
         }
     }
