@@ -57,6 +57,8 @@ task cleanBuildPublish(type: GradleBuild) {
     tasks = ['clean', 'build', 'publish']
 }
 
+group = 'com.github.jokomanza'
+
 afterEvaluate {
     publishing {
         publications {
@@ -68,7 +70,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'com.quick'
                 artifactId = 'android-update-checker'
-                version = '1.0.1'
+                version = '1.0.3'
 
             }
         }
