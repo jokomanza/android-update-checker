@@ -63,20 +63,41 @@ class UpdateChecker(val ctx: Context, val baseUrl: String?) : IUpdateChecker {
 
                 override fun onResponse(call: Call, response: Response) {
                     response.use {
-                        if (!response.isSuccessful) {
+                        if (!it.isSuccessful) {
                             throw IOException("Unexpected code $response")
                         }
 
-                        val result = Json.decodeFromString<AppVersionDto>(response.body.toString())
+                        val body = it.body?.string() ?: ""
+
+                        Log.d(TAG, "onResponse: ${body}")
+
+                        val json = Json {
+                            ignoreUnknownKeys = true
+                        }
+
+                        var result: AppVersionDto? = null
+
+                        try {
+                            result =
+                                json.decodeFromString<AppVersionDto>(body)
+                        } catch (e:Exception) {
+                            CoroutineScope(Dispatchers.Main).launch {
+                                MaterialAlertDialogBuilder(ctx).setTitle("Error")
+                                    .setMessage("Error : ${e.message}\n Body :  $body")
+                                    .show()
+                            }
+                        }
 
                         CoroutineScope(Dispatchers.Main).launch {
+                            if (result == null) return@launch
+
                             if (!isShown) {
                                 isShown = true
                                 val dialog = MaterialAlertDialogBuilder(ctx)
                                     .setTitle("New Update")
                                     .setCancelable(false)
 
-                                if (result.mandatory == true) {
+                                if (result.mandatory == false) {
                                     dialog.setMessage("This app has new update, please update it now")
                                     dialog.setNegativeButton("I'll do it later") { _, _ ->
                                         isShown =  false
@@ -115,7 +136,7 @@ class UpdateChecker(val ctx: Context, val baseUrl: String?) : IUpdateChecker {
                         }
 
 
-                        Log.d(TAG, "onResponse: ${response.body!!.string()}")
+                        Log.d(TAG, "onResponse: $body")
                     }
                 }
             })

@@ -61,6 +61,13 @@ group = 'com.github.jokomanza'
 
 afterEvaluate {
     publishing {
+        repositories {
+            maven {
+                def releasesRepoUrl = "$buildDir/repos/releases"
+                def snapshotsRepoUrl = "$buildDir/repos/snapshots"
+                url = project.hasProperty('release') ? releasesRepoUrl : snapshotsRepoUrl
+            }
+        }
         publications {
             // Creates a Maven publication called "release".
             release(MavenPublication) {
