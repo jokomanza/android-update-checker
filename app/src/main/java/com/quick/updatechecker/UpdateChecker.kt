@@ -45,9 +45,9 @@ class UpdateChecker(val ctx: Context, val baseUrl: String?) : IUpdateChecker {
     }
 
     var TAG = "UpdateChecker"
-    var BASE_URL = baseUrl ?: "http://192.168.168.23/php56/laravel-quick-appstore/public/api/"
+    var BASE_URL = baseUrl ?: "http://produksi.quick.com/quick-appstore-web/public/index.php/api/"
 
-    var httpClient = OkHttpClient()
+    private var httpClient = OkHttpClient()
 
     override fun checkUpdate() {
         CoroutineScope(Dispatchers.IO).launch {

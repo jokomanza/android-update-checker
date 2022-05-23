@@ -23,7 +23,7 @@ data class AppVersionDto(
     @SerialName("apk_file_size")
     val apkFileSize: String,
     @SerialName("icon_url")
-    val iconUrl: String,
+    val iconUrl: String? = null,
     @SerialName("description")
     val description: String,
     @SerialName("created_at")
