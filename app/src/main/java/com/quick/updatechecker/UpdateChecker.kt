@@ -73,6 +73,7 @@ class UpdateChecker(val ctx: Context, val baseUrl: String?) : IUpdateChecker {
 
                         val json = Json {
                             ignoreUnknownKeys = true
+                            explicitNulls = false
                         }
 
                         var result: AppVersionDto? = null
